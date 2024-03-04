@@ -6,7 +6,7 @@ import {courseZSchema} from "../common-types";
 
 
 
-export const addCourses = async(req:Request, res:Response)=>{
+export const addCourses = async(req:Request, res:Response):Promise<Response>=>{
    try{
 
        let validateCourse = courseZSchema.safeParse(req.body);
@@ -14,7 +14,7 @@ export const addCourses = async(req:Request, res:Response)=>{
          return res.status(400).send({message:"Please send proper data"});
        }
        await Course.create({price: validateCourse?.data?.price, title: validateCourse?.data?.title});
-       res.status(200).send({message:"Course created"});
+       return res.status(200).send({message:"Course created"});
           
    }
    catch(error){

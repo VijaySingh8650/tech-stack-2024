@@ -6,7 +6,7 @@ import { ObjectIdSchema, userCourseSchema, userSchema,  paramsValidateSchema} fr
 
 
 
-export const postUser = async (req: Request, res: Response): Promise<void> => {
+export const postUser = async (req: Request, res: Response):Promise<Response> => {
   try {
     const validateData = userSchema.safeParse(req.body);
     if (validateData) {
@@ -15,25 +15,25 @@ export const postUser = async (req: Request, res: Response): Promise<void> => {
 
       if (!checkUser) {
         await User.create({ userName, password });
-        res.status(200).send({ message: "User created successfully" });
+        return res.status(200).send({ message: "User created successfully" });
       } else {
-        res.status(200).send({ message: "Already exists" });
+        return res.status(200).send({ message: "Already exists" });
       }
 
-      return;
+ 
     }
 
-    res.status(200).send({ message: validateData });
-    return;
+    return res.status(200).send({ message: validateData });
+
   } catch (error) {
-    res.status(500).send({ error });
-    return;
+    return res.status(500).send({ error });
+
   }
 };
 
 
 
-export const buyCourses = async (req: Request, res: Response) => {
+export const buyCourses = async (req: Request, res: Response):Promise<Response> => {
   try {
     let validateParams = paramsValidateSchema.safeParse(req.params);
     let validateRequestBody = userCourseSchema.safeParse(req.body);
@@ -57,19 +57,22 @@ export const buyCourses = async (req: Request, res: Response) => {
 
       await User.updateOne(
         { _id: req?.params?.id ,
-          purchasedCourse: { $not: { $in: [req?.body?.courseId] } }
+          // purchasedCourse: { $not: { $in: [req?.body?.courseId] } }
         },
         {
-          $push: {
+          $addToSet: {
             purchasedCourse: req?.body?.courseId,
-          },
+          },   // will add distinct values in an array
+          // $push: {
+          //   purchasedCourse: req?.body?.courseId,
+          // },
         }
       );
 
       return res.status(200).send({ message: "Course bought" });
     }
 
-    res.status(401).send({ message: "Unauthorized" });
+    return res.status(401).send({ message: "Unauthorized" });
 
   } catch (error) {
     return res.status(500).send({ error });
