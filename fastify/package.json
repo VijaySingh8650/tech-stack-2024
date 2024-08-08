@@ -1,0 +1,10 @@
+{
+
+  "scripts": {},
+  "dependencies": {
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+
+  }
+}

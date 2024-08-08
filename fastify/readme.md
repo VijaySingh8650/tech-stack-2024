@@ -1,12 +1,8 @@
-# Docker
-Docker creates packages of application in the form of images that can run into the container.
-Images - source code
-Container - running instance of the image.
+# Fastify
+Fastify is a high-performance web framework for Node.js, designed to be fast and efficient with a focus on low overhead and high concurrency.
 
-
-## Docker Commonds
-1. docker run -d mongo (mongo in detached mode)
-2. docker kill container ID
-3. docker images (will show images)
-4. docker rmi mongo --force (will remove images from docker)
-5. docker ps (to see how many containers are running)
+## Why Use Fastify?
+1. High performance
+2. Built-in schema-based validation
+3. Efficient plugin system
+4. Asynchronous and modern
